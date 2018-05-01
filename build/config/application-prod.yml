@@ -1,0 +1,55 @@
+logging:
+  config: classpath:config/logback-spring.xml
+#server:
+#  ssl:
+#    key-store: classpath:key/mykeystore.p12
+#    key-store-password: hardikmca
+#    key-store-type: jks
+#    key-alias: springboot
+#    key-store-provider: sun
+
+server:
+  port: 8080
+  address: 10.10.10.124 
+  contextPath: /rest
+  tomcat:
+#    basedir: 
+    accesslog:
+      enabled: true
+#      prefix: spring_Security
+#      suffix: log
+#      file-date-format: dd-MM-yyyy
+security:
+  user:
+    name: admin
+    password: admin
+    role: ADMIN
+  basic:
+    enabled: false
+#  oauth2:
+#    client:
+#      client-id: user
+#      client-secret: pwd  
+
+
+spring:
+  mail:
+    host: email-smtp.us-west-2.amazonaws.com
+    username: AKIAJBHHIUAYWYRB342Q
+    password: AnRHT0O7MUsf7Me2oDEsosXbDBH6sCikMofsS8QW7Zz5
+    properties:
+      mail:
+        transport:
+          protocol: smtp
+        smtp:
+          port: 25
+          auth: true
+          starttls:
+            enable: true
+            required: true
+    
+#sld.email.address.support: support@firstai.co
+
+
+liquibase:
+  change-log: classpath:db/liquibase-changelog.xml

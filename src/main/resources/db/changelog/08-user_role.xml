@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+         <changeSet id="080" author="Hardik Nai">
+
+		<createTable tableName="user_role"
+	remarks="A table to contain relationship between user and role">
+			<column name="users_id" type="bigint">
+			</column>
+			<column name="roles_id" type="bigint">
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet id="081" author="Hardik Nai">
+		<insert tableName="user_role">
+			<column name="users_id" valueNumeric="1" />
+			<column name="roles_id" value="1" />
+		</insert>
+		<insert tableName="user_role">
+			<column name="users_id" valueNumeric="2" />
+			<column name="roles_id" value="2" />
+		</insert>
+		<insert tableName="user_role">
+			<column name="users_id" valueNumeric="3" />
+			<column name="roles_id" value="3" />
+		</insert>
+		<insert tableName="user_role">
+			<column name="users_id" valueNumeric="4" />
+			<column name="roles_id" value="1" />
+		</insert>
+	</changeSet>
+</databaseChangeLog>

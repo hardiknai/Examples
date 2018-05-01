@@ -1,0 +1,18 @@
+logging:
+#  level:
+#    root: INFO
+#    com: INFO
+#    org:
+#      springframework:
+#        web: INFO
+#      hibernate: INFO
+#  path: E:/
+#  file: ${logging.path}/application.log
+  config: classpath:config/logback-spring.xml
+server:
+  port: 0
+  tomcat: 
+    accesslog:
+      directory: E:/log
+      enabled: true
+      pattern: combined

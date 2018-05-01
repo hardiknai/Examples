@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+	<changeSet id="020" author="Hardik Nai">
+		<createTable tableName="author"
+			remarks="A table to contain all the authors">
+			<column name="id" type="bigint">
+				<constraints primaryKey="true"
+					primaryKeyName="pk_author_id" />
+			</column>
+			<column name="name " type="varchar(100)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<!-- <addForeignKeyConstraint constraintName="fk_author" referencedTableName="author" 
+			referencedColumnNames="id" baseTableName="book" baseColumnNames="author_id"/> -->
+	</changeSet>
+
+
+	<changeSet id="021" author="Hardik Nai">
+		<loadUpdateData encoding="UTF-8"
+			file="db/changelog/data/author.csv" primaryKey="pk_author_id"
+			separator="," tableName="author">
+			<column name="deleted" type="boolean"/>
+			</loadUpdateData>
+	</changeSet>
+
+	<changeSet id="022" author="Hardik Nai">
+		<insert tableName="author">
+			<column name="name" value="Hardik Nai" />
+			<column name="deleted" valueBoolean="false"/>
+		</insert>
+		<insert tableName="author">
+			<column name="name" value="Varoon Gondalia" />
+			<column name="deleted" valueBoolean="false"/>
+		</insert>
+		<insert tableName="author">
+			<column name="name" value="Dakshash Panchal" />
+			<column name="deleted" valueBoolean="false"/>
+		</insert>
+		<insert tableName="author">
+			<column name="name" value="Dipika Chauhan" />
+			<column name="deleted" valueBoolean="false"/>
+		</insert>
+	</changeSet>
+</databaseChangeLog>

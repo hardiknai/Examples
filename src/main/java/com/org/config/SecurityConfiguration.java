@@ -1,64 +1,44 @@
 package com.org.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.servlet.Filter;
+
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import com.org.repository.UsersRepository;
+import com.org.filter.CustomFilter;
 
-@EnableGlobalAuthentication
 @EnableWebSecurity
-@EnableJpaRepositories(basePackageClasses = UsersRepository.class)
 @Configuration
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
-
-	@Autowired
-	private UserDetailsService userDetailsService;
+public class InMemorySecurityConfiguration extends WebSecurityConfigurerAdapter{
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService)
-		.passwordEncoder(getPasswordEncoder());
+		auth
+			.inMemoryAuthentication()
+			.withUser("manager").password("manager").roles("USER")
+			.and().withUser("admin").password("admin").roles("ADMIN");
 	}
 	
-
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity
 				.authorizeRequests()
-				.antMatchers("**/admin/**").authenticated()
-				.anyRequest().permitAll()
+				.anyRequest()
+				.fullyAuthenticated()
 				.and()
-				.formLogin().permitAll();
-
-		httpSecurity
-				.csrf()
-				.disable();
+				//.addFilterBefore(CustomFilter(), BasicAuthenticationFilter.class)
+				.httpBasic();
+		
+		httpSecurity.csrf().disable();
+		
 	}
 
-
-	public PasswordEncoder getPasswordEncoder() {
+	public CustomFilter CustomFilter() {
 		// TODO Auto-generated method stub
-		return new PasswordEncoder() {
-			
-			@Override
-			public boolean matches(CharSequence rawPassword, String encodedPassword) {
-				// TODO Auto-generated method stub
-				return true;
-			}
-			
-			@Override
-			public String encode(CharSequence rawPassword) {
-				// TODO Auto-generated method stub
-				return rawPassword.toString();
-			}
-		};
-	}	
+		return new CustomFilter();
+	}
 }
